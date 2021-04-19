@@ -479,6 +479,24 @@ class OPDSImporter(object):
 
     NO_DEFAULT_AUDIENCE = ''
 
+    PRIMARY_IDENTIFIER_SOURCE_SETTINGS = [{
+        "key": ExternalIntegration.PRIMARY_IDENTIFIER_SOURCE,
+        "label": _("Primary Identifier"),
+        "required": False,
+        "description": _("Which book identifier to use as the Primary ID."),
+        "type": "select",
+        "options": [
+            {
+                "key": "",
+                "label": _("(Default) Use <id>")
+            },
+            {
+                "key": ExternalIntegration.DCTERMS_IDENTIFIER,
+                "label": _("Prefer <dcterms:identifier> if present, else fall back to <id>")
+            },
+        ],
+    }]
+
     # These settings are used by all OPDS-derived import methods.
     BASE_SETTINGS = [
         {
@@ -544,24 +562,7 @@ class OPDSImporter(object):
                 "*/*;q=0.1",
             ])
         },
-        {
-            "key": ExternalIntegration.PRIMARY_IDENTIFIER_SOURCE,
-            "label": _("Identifer"),
-            "required": False,
-            "description": _("Which book identifier to use as ID."),
-            "type": "select",
-            "options": [
-               {
-                   "key": "",
-                   "label": _("(Default) Use <id>")
-               },
-               {
-                   "key": ExternalIntegration.DCTERMS_IDENTIFIER,
-                   "label": _("Use <dcterms:identifier> first, if not exist use <id>")
-               },
-            ],
-        },
-    ]
+    ] + PRIMARY_IDENTIFIER_SOURCE_SETTINGS
 
     # Subclasses of OPDSImporter may define a different parser class that's
     # a subclass of OPDSXMLParser. For example, a subclass may want to use
